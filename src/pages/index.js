@@ -1,25 +1,38 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import Layout from "../components/layout"
-import Header from "../components/header"
+import Book from "../components/book"
 
-const IndexPage = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
+const getBooks = graphql`
+  query {
+    allBooks: allBook {
+      edges {
+        node {
+          id
+          summary
           title
+          author {
+            name
+          }
         }
       }
     }
-  `)
+  }
+`
+const IndexPage = ({ children }) => {
+  const response = useStaticQuery(getBooks)
+  const books = response.allBooks.edges
 
   return (
     <Layout>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <h1>Hi Zbyszek </h1>
-      <p>Welcome to your new Gatsby site.</p>
-      <p>Now go build something great.</p>
+      {books.map(book => (
+        <Book
+          key={book.node.id}
+          bookTitle={book.node.title}
+          authorName={book.node.author.name}
+          bookSummary={book.node.summary}
+        ></Book>
+      ))}
     </Layout>
   )
 }
