@@ -1,7 +1,8 @@
 import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import { Link, useStaticQuery, graphql } from "gatsby"
 import Layout from "../components/layout"
 import Book from "../components/book"
+//import styled from "styled-components"
 
 const getBooks = graphql`
   query {
@@ -9,6 +10,13 @@ const getBooks = graphql`
       edges {
         node {
           id
+          localImage {
+            childImageSharp {
+              fixed(width: 200) {
+                ...GatsbyImageSharpFixed
+              }
+            }
+          }
           summary
           title
           author {
@@ -19,19 +27,23 @@ const getBooks = graphql`
     }
   }
 `
-const IndexPage = ({ children }) => {
+
+const IndexPage = props => {
   const response = useStaticQuery(getBooks)
   const books = response.allBooks.edges
 
   return (
     <Layout>
-      {books.map(book => (
+      {books.map(({ node }) => (
         <Book
-          key={book.node.id}
-          bookTitle={book.node.title}
-          authorName={book.node.author.name}
-          bookSummary={book.node.summary}
-        ></Book>
+          key={node.id}
+          bookCover={node.localImage.childImageSharp.fixed}
+          bookTitle={node.title}
+          authorName={node.author.name}
+          bookSummary={node.summary}
+        >
+          <Link to={`/book/${node.id}`}>Join conversation</Link>
+        </Book>
       ))}
     </Layout>
   )

@@ -6,6 +6,13 @@ import Book from "../components/book"
 export const query = graphql`
   query BookQuery($bookId: String!) {
     book(id: { eq: $bookId }) {
+      localImage {
+        childImageSharp {
+          fixed(width: 200) {
+            ...GatsbyImageSharpFixed
+          }
+        }
+      }
       summary
       title
       id
@@ -16,13 +23,19 @@ export const query = graphql`
   }
 `
 
-const BookTemplate = props => {
-  console.log(props.data)
-  const { summary, title, author } = props.data.book
+const BookTemplate = ({ data }) => {
+  console.log(data)
+  const { localImage, summary, title, author } = data.book
 
   return (
     <Layout>
-      <Book bookTitle={title} authorName={author.name} bookSummary={summary} />
+      Book
+      <Book
+        bookCover={localImage.childImageSharp.fixed}
+        bookTitle={title}
+        authorName={author.name}
+        bookSummary={summary}
+      />
     </Layout>
   )
 }
