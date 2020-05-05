@@ -5,7 +5,7 @@ import Book from "../components/book"
 
 export const query = graphql`
   query BookQuery($bookId: String!) {
-    b: book(id: { eq: $bookId }) {
+    book(id: { eq: $bookId }) {
       summary
       title
       id
@@ -16,11 +16,13 @@ export const query = graphql`
   }
 `
 
-const BookTemplate = ({ data }) => {
-  const { summary, title, author } = data.b
+const BookTemplate = props => {
+  console.log(props.data)
+  const { summary, title, author } = props.data.book
+
   return (
     <Layout>
-      <Book authorName={author.name} bookSummary={summary} bookTitle={title} />
+      <Book bookTitle={title} authorName={author.name} bookSummary={summary} />
     </Layout>
   )
 }

@@ -19,7 +19,7 @@ exports.createPages = async ({ graphql, actions }) => {
   data.books.edges.forEach(({ node }) => {
     createPage({
       path: `/book/${node.id}`,
-      component: path.resolve("./src/templates/bookTemplate.js"),
+      component: bookTemplate,
       context: { bookId: node.id },
     })
   })
