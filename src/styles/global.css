@@ -9,3 +9,11 @@ a {
 ul {
   list-style: none;
 }
+small {
+  font-size: 14px;
+  padding-left: 8px;
+  font-weight: normal;
+}
+img {
+  max-width: 200px;
+}

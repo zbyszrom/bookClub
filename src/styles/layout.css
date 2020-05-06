@@ -1,0 +1,7 @@
+section {
+  border: 1px solid #ddd;
+  padding: 8px;
+  background: white;
+  margin-bottom: 8px;
+  display: flex;
+}
